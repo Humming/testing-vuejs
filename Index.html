@@ -4,7 +4,9 @@
 </head>
 <body>
   <h1>Vue got style</h1>
-  <div id="app"><label>i has something to say<label/><p>{{ message }}</p>
+  <div id="app">
+    <h3>Two way binding</h3>
+    <label>i has something to say<label/><p>{{ message }}</p>
     <input v-model="message">
   </div>
   <script>
@@ -16,14 +18,17 @@
        })
        </script>
 <div id="app2">
+  <h3>Loops and lists</h3>
 <ul>
   <li v-for="item in items">{{ item.text }}</li>
 </ul>
+<p>{{ message }}</p>
 </div>
 <script>
      new Vue({
        el:'#app2',
        data: {
+         message:'test scope',
        items: [
          {text:'i was here'},
          {text:'alex was pranked'},
@@ -32,6 +37,59 @@
      }
    }
   )
+</script>
+
+<div id="app3">
+<h3>Methods</h3>
+  <p> {{ message }} </p>
+  <button v-on:click="reverseThis">Reverse Message</button>
+</div>
+<script>
+  new Vue({
+    el:'#app3',
+    data:{ message: 'reverse me' },
+    methods: { reverseThis: function() {
+          this.message = this.message.split('').reverse().join('')
+    } }
+  })
+</script>
+<br><br>
+<div id="app4">
+  <h3>Dynamic list</h3>
+<input v-model="newTodo" v-on:keyup.enter="addTodo">
+<ul><li v-for="todo in todos"><span>{{ todo.text }}</span><button v-on:click="removeTodo($index)">X
+</button></li></ul>
+</div>
+<script>new Vue({el: '#app4',
+  data: {
+    newTodo: '',
+    todos: [
+      { text: 'Add some todos' }
+    ]
+  },
+  methods: {
+    addTodo: function () {
+      var text = this.newTodo.trim()
+      if (text) {
+        this.todos.push({ text: text })
+        this.newTodo = ''
+      }
+    },
+    removeTodo: function (index) {
+      this.todos.splice(index, 1)
+    }
+  }})</script>
+
+<div id="app5">
+  <h3>Extended Vue object</h3>
+<button v-on:click="sayHi">Press me</button>
+</div>
+<script>var extendedVue = Vue.extend({
+ methods: {
+    sayHi: function() { alert('hi')}
+  }
+})
+var vm = new extendedVue({  el:'#app5'});
 </script>
 
 </body>
